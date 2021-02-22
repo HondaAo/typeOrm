@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs'
 import { User } from "../entity/User";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 import { MyContext } from '../MyContext'
+
 @Resolver()
 export class LoginResolver{
     @Mutation(() => User, { nullable: true })
