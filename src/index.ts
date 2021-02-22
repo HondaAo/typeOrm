@@ -10,6 +10,7 @@ import connectRedis from 'connect-redis'
 import { redis } from './redis';
 import { LoginResolver } from "./user/Login";
 import { MeResolver } from "./user/me";
+import { LogoutResolver } from "./user/Logout";
 
 
 
@@ -18,7 +19,13 @@ const serverStart = async () => {
   await createConnection();
 
   const schema = await buildSchema({
-    resolvers: [RegisterResolver, LoginResolver, MeResolver]
+    resolvers: [RegisterResolver, LoginResolver, MeResolver, LogoutResolver],
+    authChecker: ({ context: { req } } ) => {
+      if(req.session.userId){
+        return true 
+      }
+      return false
+    }
   });
 
   const server = new ApolloServer({ 
